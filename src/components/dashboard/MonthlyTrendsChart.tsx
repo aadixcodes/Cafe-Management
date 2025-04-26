@@ -27,12 +27,12 @@ export function MonthlyTrendsChart({ data }: MonthlyTrendsChartProps) {
   };
 
   return (
-    <Card className="glass-panel card-shadow animate-chart-appear">
-      <CardHeader>
-        <CardTitle className="text-xl">Monthly Trends</CardTitle>
+    <Card className="bg-[#1B1B23] border-cafe-border">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg md:text-xl">Monthly Trends</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-80">
+        <div className="h-[300px] md:h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={data}

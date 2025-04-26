@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   PieChart,
@@ -44,13 +43,13 @@ export function TopItemsCharts({ purchasedItems, soldItems }: TopItemsChartsProp
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-      <Card className="glass-panel card-shadow animate-chart-appear" style={{animationDelay: "0.2s"}}>
-        <CardHeader>
-          <CardTitle className="text-xl">Top Purchased Items</CardTitle>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <Card className="bg-[#1B1B23] border-cafe-border">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-lg md:text-xl">Top Purchased Items</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className="h-[300px] md:h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -82,12 +81,12 @@ export function TopItemsCharts({ purchasedItems, soldItems }: TopItemsChartsProp
         </CardContent>
       </Card>
       
-      <Card className="glass-panel card-shadow animate-chart-appear" style={{animationDelay: "0.3s"}}>
-        <CardHeader>
-          <CardTitle className="text-xl">Top Sold Items</CardTitle>
+      <Card className="bg-[#1B1B23] border-cafe-border">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-lg md:text-xl">Top Sold Items</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className="h-[300px] md:h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={soldItems}

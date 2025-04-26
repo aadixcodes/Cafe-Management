@@ -24,19 +24,19 @@ export function DataCard({
   className,
 }: DataCardProps) {
   return (
-    <Card className={cn("glass-panel card-shadow glass-panel-hover", className)}>
+    <Card className={cn("glass-panel bg-[#1B1B23] border-cafe-border", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium text-cafe-text-muted">
           {title}
         </CardTitle>
         {icon && (
-          <div className="h-8 w-8 rounded-md bg-cafe-accent/20 p-1.5 text-cafe-accent">
+          <div className="h-7 w-7 rounded-md bg-cafe-accent/20 p-1.5 text-cafe-accent">
             {icon}
           </div>
         )}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-xl md:text-2xl font-bold">{value}</div>
         {trend && (
           <div className="flex items-center mt-1">
             <span

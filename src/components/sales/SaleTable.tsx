@@ -39,11 +39,11 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
   };
 
   return (
-    <Card className="bg-[#21212C]">
+    <Card className="bg-[#1B1B23] border-cafe-border">
       <CardHeader>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <CardTitle className="text-xl">Sales Records</CardTitle>
-          <Button onClick={onAddSale} className="bg-blue-600 hover:bg-blue-700">
+          <CardTitle className="text-lg md:text-xl">Sales Records</CardTitle>
+          <Button onClick={onAddSale} className="bg-cafe-accent hover:bg-cafe-accent-dark w-full md:w-auto h-9 md:h-10 text-sm">
             <Plus size={16} className="mr-2" />
             Add Sale
           </Button>
@@ -66,10 +66,10 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
             value={selectedItem}
             onValueChange={setSelectedItem}
           >
-            <SelectTrigger className="w-full md:w-[200px] bg-background">
+            <SelectTrigger className="w-full md:w-[200px] h-9 md:h-10 bg-background">
               <SelectValue placeholder="Filter by item" />
             </SelectTrigger>
-            <SelectContent className="bg-[#21212C]">
+            <SelectContent className="bg-[#1B1B23]">
               <SelectItem value="all">All Items</SelectItem>
               {uniqueItems.map((item) => (
                 <SelectItem key={item} value={item}>
