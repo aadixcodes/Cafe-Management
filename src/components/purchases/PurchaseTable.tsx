@@ -23,7 +23,7 @@ export function PurchaseTable({
   onDeletePurchase 
 }: PurchaseTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedItem, setSelectedItem] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<string>('all');
 
   // Get unique item names for the filter dropdown
   const uniqueItems = Array.from(new Set(purchases.map(p => p.itemName))).sort();
@@ -34,7 +34,7 @@ export function PurchaseTable({
       Object.values(purchase).some(value => 
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       );
-    const matchesItem = !selectedItem || purchase.itemName === selectedItem;
+    const matchesItem = selectedItem === 'all' || purchase.itemName === selectedItem;
     return matchesSearch && matchesItem;
   });
 
@@ -79,7 +79,7 @@ export function PurchaseTable({
               <SelectValue placeholder="Filter by item" />
             </SelectTrigger>
             <SelectContent className="bg-[#21212C]">
-              <SelectItem value="">All Items</SelectItem>
+              <SelectItem value="all">All Items</SelectItem>
               {uniqueItems.map((item) => (
                 <SelectItem key={item} value={item}>
                   {item}
