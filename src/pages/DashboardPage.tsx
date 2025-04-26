@@ -29,7 +29,9 @@ export default function DashboardPage() {
       
       <SummaryCards data={financialSummary} />
       
-      <MonthlyTrendsChart data={monthlyTrends} />
+      <div className="mt-8 mb-8"> {/* Added more vertical spacing */}
+        <MonthlyTrendsChart data={monthlyTrends} />
+      </div>
       
       <TopItemsCharts 
         purchasedItems={topPurchasedItems}
