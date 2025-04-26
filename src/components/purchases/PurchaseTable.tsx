@@ -45,11 +45,11 @@ export function PurchaseTable({
   };
 
   return (
-    <Card className="bg-[#21212C]">
+    <Card className="bg-cafe-background border-cafe-border">
       <CardHeader>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <CardTitle className="text-xl">Purchase Records</CardTitle>
-          <Button onClick={onAddPurchase} className="bg-blue-600 hover:bg-blue-700">
+          <CardTitle className="text-lg md:text-xl">Purchase Records</CardTitle>
+          <Button onClick={onAddPurchase} className="bg-cafe-accent hover:bg-cafe-accent-dark w-full md:w-auto h-9 md:h-10 text-sm">
             <Plus size={16} className="mr-2" />
             Add Purchase
           </Button>
@@ -62,7 +62,7 @@ export function PurchaseTable({
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search purchases..."
-                className="pl-8 bg-background w-full"
+                className="pl-8 bg-cafe-card/50 w-full border-cafe-border"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -72,10 +72,10 @@ export function PurchaseTable({
             value={selectedItem}
             onValueChange={setSelectedItem}
           >
-            <SelectTrigger className="w-full md:w-[200px] bg-background">
+            <SelectTrigger className="w-full md:w-[200px] bg-cafe-card/50 border-cafe-border">
               <SelectValue placeholder="Filter by item" />
             </SelectTrigger>
-            <SelectContent className="bg-[#21212C]">
+            <SelectContent className="bg-cafe-background border-cafe-border">
               <SelectItem value="all">All Items</SelectItem>
               {uniqueItems.map((item) => (
                 <SelectItem key={item} value={item}>
@@ -86,10 +86,10 @@ export function PurchaseTable({
           </Select>
         </div>
         
-        <div className="rounded-md border overflow-x-auto max-w-full">
+        <div className="rounded-md border border-cafe-border overflow-x-auto max-w-full">
           <div className="min-w-full overflow-hidden">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-cafe-card/50">
                 <TableRow>
                   <TableHead className="w-[60px]">S.No</TableHead>
                   <TableHead>Date</TableHead>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -35,13 +34,13 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
   };
 
   return (
-    <Card className="glass-panel card-shadow mt-4 animate-chart-appear" style={{animationDelay: "0.4s"}}>
+    <Card className="bg-cafe-background border-cafe-border mt-4 animate-chart-appear shadow-lg" style={{animationDelay: "0.4s"}}>
       <CardHeader>
-        <CardTitle className="text-xl">Recent Transactions</CardTitle>
+        <CardTitle className="text-lg md:text-xl">Recent Transactions</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="all" value={activeTab} onValueChange={(value) => setActiveTab(value as any)}>
-          <TabsList className="bg-cafe-card">
+          <TabsList className="bg-cafe-card/50">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="purchases">Purchases</TabsTrigger>
             <TabsTrigger value="sales">Sales</TabsTrigger>
@@ -49,7 +48,7 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
           <TabsContent value={activeTab} className="mt-4">
             <div className="rounded-md border border-cafe-border">
               <Table>
-                <TableHeader className="bg-cafe-card">
+                <TableHeader className="bg-cafe-card/50">
                   <TableRow>
                     <TableHead>Date</TableHead>
                     <TableHead>Type</TableHead>

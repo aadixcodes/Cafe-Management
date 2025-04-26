@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -37,7 +36,6 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
     setFormData(prev => {
       const updatedData = { ...prev, [name]: value };
       
-      // Calculate total sale and profit if relevant fields change
       if (['quantity', 'costPrice', 'salePrice'].includes(name)) {
         const quantity = name === 'quantity' ? Number(value) : (prev.quantity || 0);
         const costPrice = name === 'costPrice' ? Number(value) : (prev.costPrice || 0);
@@ -91,7 +89,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-[#21212C]">
+      <DialogContent className="sm:max-w-[425px] bg-cafe-background border-cafe-border">
         <DialogHeader>
           <DialogTitle>{sale ? 'Edit Sale' : 'Add Sale'}</DialogTitle>
         </DialogHeader>
@@ -103,7 +101,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
               name="itemName"
               value={formData.itemName}
               onChange={handleInputChange}
-              className="bg-background"
+              className="bg-cafe-card/50 border-cafe-border"
             />
           </div>
           
@@ -116,7 +114,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
               min="1"
               value={formData.quantity}
               onChange={handleInputChange}
-              className="bg-background"
+              className="bg-cafe-card/50 border-cafe-border"
             />
           </div>
           
@@ -131,7 +129,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
                 step="0.01"
                 value={formData.costPrice}
                 onChange={handleInputChange}
-                className="bg-background"
+                className="bg-cafe-card/50 border-cafe-border"
               />
             </div>
             <div className="grid gap-2">
@@ -144,7 +142,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
                 step="0.01"
                 value={formData.salePrice}
                 onChange={handleInputChange}
-                className="bg-background"
+                className="bg-cafe-card/50 border-cafe-border"
               />
             </div>
           </div>
@@ -156,7 +154,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal bg-cafe-card/50 border-cafe-border",
                     !date && "text-muted-foreground"
                   )}
                 >
@@ -164,13 +162,13 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
                   {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-[#21212C]">
+              <PopoverContent className="w-auto p-0 bg-cafe-background border-cafe-border">
                 <Calendar
                   mode="single"
                   selected={date}
                   onSelect={handleDateSelect}
                   initialFocus
-                  className="pointer-events-auto"
+                  className="bg-cafe-background"
                 />
               </PopoverContent>
             </Popover>
