@@ -47,27 +47,39 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button - positioned with more space */}
-      <Button 
-        variant="outline" 
-        size="icon" 
-        className="lg:hidden fixed top-4 left-4 z-50 bg-cafe-card border-cafe-border"
-        onClick={toggleSidebar}
-        aria-label="Toggle sidebar"
-      >
-        {isOpen ? <X size={18} /> : <Menu size={18} />}
-      </Button>
+      {/* Mobile menu button - right aligned */}
+      <div className="flex justify-between items-center lg:hidden fixed top-0 left-0 right-0 z-40 bg-cafe-card border-b border-cafe-border p-4">
+        <h1 className="text-xl font-bold text-gradient">Cafe Vista</h1>
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="bg-cafe-card border-cafe-border"
+          onClick={toggleSidebar}
+          aria-label="Toggle sidebar"
+        >
+          <Menu size={18} />
+        </Button>
+      </div>
       
       {/* Sidebar */}
       <div 
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-cafe-card border-r border-cafe-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col h-full",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-cafe-card border-r border-cafe-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col h-full",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full max-h-screen overflow-y-auto">
-          <div className="p-6 pt-8">
+          <div className="p-6 pt-8 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gradient">Cafe Vista</h1>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={closeSidebar}
+              className="lg:hidden"
+              aria-label="Close sidebar"
+            >
+              <X size={18} />
+            </Button>
           </div>
           
           <div className="px-4 flex-1 overflow-y-auto">
@@ -113,7 +125,7 @@ export function Sidebar() {
       {/* Overlay for mobile */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={closeSidebar}
         />
       )}
