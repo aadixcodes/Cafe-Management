@@ -47,12 +47,13 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile menu button - positioned with more space */}
       <Button 
         variant="outline" 
         size="icon" 
         className="lg:hidden fixed top-4 left-4 z-50 bg-cafe-card border-cafe-border"
         onClick={toggleSidebar}
+        aria-label="Toggle sidebar"
       >
         {isOpen ? <X size={18} /> : <Menu size={18} />}
       </Button>
@@ -60,16 +61,16 @@ export function Sidebar() {
       {/* Sidebar */}
       <div 
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-cafe-card border-r border-cafe-border transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-40 w-64 bg-cafe-card border-r border-cafe-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 flex flex-col h-full",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full">
-          <div className="p-6">
+        <div className="flex flex-col h-full max-h-screen overflow-y-auto">
+          <div className="p-6 pt-8">
             <h1 className="text-2xl font-bold text-gradient">Cafe Vista</h1>
           </div>
           
-          <div className="px-4 flex-1">
+          <div className="px-4 flex-1 overflow-y-auto">
             <SidebarItem 
               to="/" 
               icon={Home} 
