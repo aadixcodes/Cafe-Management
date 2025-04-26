@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -19,10 +18,8 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState<string>('all');
 
-  // Get unique item names for the filter dropdown
   const uniqueItems = Array.from(new Set(sales.map(s => s.itemName))).sort();
 
-  // Filter sales based on search and item selection
   const filteredSales = sales.filter(sale => {
     const matchesSearch = !searchTerm || 
       Object.values(sale).some(value => 
@@ -59,7 +56,7 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search sales..."
-                className="pl-8 bg-background"
+                className="pl-8 bg-background w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -83,55 +80,57 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
           </Select>
         </div>
         
-        <div className="rounded-md border overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[60px]">S.No</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Item Name</TableHead>
-                <TableHead className="text-right">Quantity</TableHead>
-                <TableHead className="text-right">Cost Price</TableHead>
-                <TableHead className="text-right">Sale Price</TableHead>
-                <TableHead className="text-right">Profit/Item</TableHead>
-                <TableHead className="text-right">Total Profit</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredSales.length > 0 ? (
-                filteredSales.map((sale, index) => (
-                  <TableRow key={sale.id}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{formatDate(sale.date)}</TableCell>
-                    <TableCell>{sale.itemName}</TableCell>
-                    <TableCell className="text-right">{sale.quantity}</TableCell>
-                    <TableCell className="text-right">{formatRupees(sale.costPrice)}</TableCell>
-                    <TableCell className="text-right">{formatRupees(sale.salePrice)}</TableCell>
-                    <TableCell className="text-right">{formatRupees(sale.salePrice - sale.costPrice)}</TableCell>
-                    <TableCell className="text-right">{formatRupees(sale.profit)}</TableCell>
-                    <TableCell>
-                      <div className="flex justify-end">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onEditSale(sale)}
-                        >
-                          <Edit size={16} />
-                        </Button>
-                      </div>
+        <div className="rounded-md border overflow-x-auto max-w-full">
+          <div className="min-w-full overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[60px]">S.No</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Item Name</TableHead>
+                  <TableHead className="text-right">Quantity</TableHead>
+                  <TableHead className="text-right">Cost Price</TableHead>
+                  <TableHead className="text-right">Sale Price</TableHead>
+                  <TableHead className="text-right">Profit/Item</TableHead>
+                  <TableHead className="text-right">Total Profit</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredSales.length > 0 ? (
+                  filteredSales.map((sale, index) => (
+                    <TableRow key={sale.id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{formatDate(sale.date)}</TableCell>
+                      <TableCell>{sale.itemName}</TableCell>
+                      <TableCell className="text-right">{sale.quantity}</TableCell>
+                      <TableCell className="text-right">{formatRupees(sale.costPrice)}</TableCell>
+                      <TableCell className="text-right">{formatRupees(sale.salePrice)}</TableCell>
+                      <TableCell className="text-right">{formatRupees(sale.salePrice - sale.costPrice)}</TableCell>
+                      <TableCell className="text-right">{formatRupees(sale.profit)}</TableCell>
+                      <TableCell>
+                        <div className="flex justify-end">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => onEditSale(sale)}
+                          >
+                            <Edit size={16} />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={9} className="text-center py-6 text-muted-foreground">
+                      No sales found
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={9} className="text-center py-6 text-muted-foreground">
-                    No sales found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </CardContent>
     </Card>

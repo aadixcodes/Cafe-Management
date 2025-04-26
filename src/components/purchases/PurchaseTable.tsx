@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -25,10 +24,8 @@ export function PurchaseTable({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState<string>('all');
 
-  // Get unique item names for the filter dropdown
   const uniqueItems = Array.from(new Set(purchases.map(p => p.itemName))).sort();
 
-  // Filter purchases based on search and item selection
   const filteredPurchases = purchases.filter(purchase => {
     const matchesSearch = !searchTerm || 
       Object.values(purchase).some(value => 
@@ -65,7 +62,7 @@ export function PurchaseTable({
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search purchases..."
-                className="pl-8 bg-background"
+                className="pl-8 bg-background w-full"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -89,61 +86,63 @@ export function PurchaseTable({
           </Select>
         </div>
         
-        <div className="rounded-md border overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[60px]">S.No</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Item Name</TableHead>
-                <TableHead className="text-right">Quantity</TableHead>
-                <TableHead className="text-right">Price per Item</TableHead>
-                <TableHead className="text-right">Total Money</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredPurchases.length > 0 ? (
-                filteredPurchases.map((purchase, index) => (
-                  <TableRow key={purchase.id}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{formatDate(purchase.date)}</TableCell>
-                    <TableCell>{purchase.itemName}</TableCell>
-                    <TableCell className="text-right">{purchase.quantity}</TableCell>
-                    <TableCell className="text-right">{formatRupees(purchase.unitPrice)}</TableCell>
-                    <TableCell className="text-right">{formatRupees(purchase.totalCost)}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onEditPurchase(purchase)}
-                        >
-                          <Edit size={16} />
-                        </Button>
-                        {onDeletePurchase && (
+        <div className="rounded-md border overflow-x-auto max-w-full">
+          <div className="min-w-full overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[60px]">S.No</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Item Name</TableHead>
+                  <TableHead className="text-right">Quantity</TableHead>
+                  <TableHead className="text-right">Price per Item</TableHead>
+                  <TableHead className="text-right">Total Money</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredPurchases.length > 0 ? (
+                  filteredPurchases.map((purchase, index) => (
+                    <TableRow key={purchase.id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{formatDate(purchase.date)}</TableCell>
+                      <TableCell>{purchase.itemName}</TableCell>
+                      <TableCell className="text-right">{purchase.quantity}</TableCell>
+                      <TableCell className="text-right">{formatRupees(purchase.unitPrice)}</TableCell>
+                      <TableCell className="text-right">{formatRupees(purchase.totalCost)}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => onDeletePurchase(purchase)}
-                            className="text-red-500 hover:text-red-600"
+                            onClick={() => onEditPurchase(purchase)}
                           >
-                            <Trash2 size={16} />
+                            <Edit size={16} />
                           </Button>
-                        )}
-                      </div>
+                          {onDeletePurchase && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => onDeletePurchase(purchase)}
+                              className="text-red-500 hover:text-red-600"
+                            >
+                              <Trash2 size={16} />
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
+                      No purchases found
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
-                    No purchases found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </CardContent>
     </Card>
