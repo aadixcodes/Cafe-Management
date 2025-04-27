@@ -13,6 +13,7 @@ interface PurchaseTableProps {
   onAddPurchase: () => void;
   onEditPurchase: (purchase: Purchase) => void;
   onDeletePurchase?: (purchase: Purchase) => void;
+  isLoading?: boolean;
 }
 
 export function PurchaseTable({ 
@@ -47,11 +48,16 @@ export function PurchaseTable({
   return (
     <Card className="bg-cafe-background border-cafe-border">
       <CardHeader>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <CardTitle className="text-lg md:text-xl">Purchase Records</CardTitle>
-          <Button onClick={onAddPurchase} className="bg-cafe-accent hover:bg-cafe-accent-dark w-full md:w-auto h-9 md:h-10 text-sm">
-            <Plus size={16} className="mr-2" />
-            Add Purchase
+        <div className="flex flex-row justify-between items-center gap-4">
+          <CardTitle className="text-lg">Purchase Records</CardTitle>
+          <Button 
+            onClick={onAddPurchase} 
+            className="bg-cafe-accent hover:bg-cafe-accent-dark h-8 px-3 text-xs sm:text-sm sm:h-9 sm:px-4"
+            size="sm"
+          >
+            <Plus size={14} className="" />
+            <span className="hidden sm:inline">Add Purchase</span>
+            <span className="sm:hidden pr-2">Add</span>
           </Button>
         </div>
       </CardHeader>
@@ -115,20 +121,19 @@ export function PurchaseTable({
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8"
                             onClick={() => onEditPurchase(purchase)}
                           >
-                            <Edit size={16} />
+                            <Edit size={14} />
                           </Button>
-                          {onDeletePurchase && (
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => onDeletePurchase(purchase)}
-                              className="text-red-500 hover:text-red-600"
-                            >
-                              <Trash2 size={16} />
-                            </Button>
-                          )}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-red-500 hover:text-red-600"
+                            onClick={() => onDeletePurchase?.(purchase)}
+                          >
+                            <Trash2 size={14} />
+                          </Button>
                         </div>
                       </TableCell>
                     </TableRow>

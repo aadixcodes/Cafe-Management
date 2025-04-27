@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 import { z } from 'zod';
+import { useAuth } from '@/contexts/AuthContext';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -24,6 +24,7 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,22 +46,24 @@ export function LoginForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+  
     try {
       loginSchema.parse(formData);
       // If validation passes, continue with login
       setIsLoading(true);
-      
-      // Simulate API call
-      setTimeout(() => {
+  
+      if (login(formData.email, formData.password)) {
+        setTimeout(() => {
+          setIsLoading(false);
+          navigate('/dashboard');
+        }, 1500);
+      } else {
         setIsLoading(false);
-        // Redirect to dashboard
-        navigate('/');
-      }, 1500);
-      
+        setErrors({ email: 'Invalid credentials' });
+      }
+  
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Convert Zod errors to our format
         const newErrors: { [key: string]: string } = {};
         error.errors.forEach(err => {
           if (err.path[0]) {
@@ -71,21 +74,22 @@ export function LoginForm() {
       }
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-cafe-background">
-      <Card className="w-full max-w-md glass-panel card-shadow">
+      <Card className="w-full max-w-md glass-panel bg-[#1B1B23] card-shadow">
         <CardHeader>
           <div className="flex justify-between items-center mb-2">
             <CardTitle className="text-2xl font-bold text-gradient">Cafe Vista</CardTitle>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <Label htmlFor="theme-mode">Dark Mode</Label>
               <Switch 
                 id="theme-mode" 
                 checked={isDarkMode}
                 onCheckedChange={toggleDarkMode}
               />
-            </div>
+            </div> */}
           </div>
           <CardDescription>Sign in to your account to access the dashboard</CardDescription>
         </CardHeader>

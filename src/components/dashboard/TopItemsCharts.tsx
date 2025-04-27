@@ -22,9 +22,9 @@ interface TopItemsChartsProps {
 
 export function TopItemsCharts({ purchasedItems, soldItems }: TopItemsChartsProps) {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
       minimumFractionDigits: 0,
     }).format(value);
   };
@@ -71,8 +71,11 @@ export function TopItemsCharts({ purchasedItems, soldItems }: TopItemsChartsProp
                   contentStyle={{ 
                     backgroundColor: '#21212C', 
                     borderColor: '#32323E', 
-                    color: '#FFFFFF' 
+                    color: '#FFFFFF',
+                    fontSize: '14px',
+                    fontWeight: '500'
                   }}
+                  itemStyle={{ color: '#FFFFFF' }}
                 />
                 <Legend />
               </PieChart>
@@ -105,8 +108,11 @@ export function TopItemsCharts({ purchasedItems, soldItems }: TopItemsChartsProp
                   contentStyle={{ 
                     backgroundColor: '#21212C', 
                     borderColor: '#32323E', 
-                    color: '#FFFFFF' 
+                    color: '#FFFFFF',
+                    fontSize: '14px',
+                    fontWeight: '500'
                   }}
+                  itemStyle={{ color: '#FFFFFF' }}
                 />
                 <Legend />
                 <Bar dataKey="value" fill="#316BF0" name="Sales" radius={[4, 4, 0, 0]} />

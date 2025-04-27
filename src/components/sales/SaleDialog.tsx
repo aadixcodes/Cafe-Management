@@ -175,7 +175,7 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
+          <Button className='bg-[#1B1B23]' variant="outline" onClick={onClose}>
             Cancel
           </Button>
           <Button onClick={handleSubmit}>

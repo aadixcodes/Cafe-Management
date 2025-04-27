@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Plus, Edit } from 'lucide-react';
+import { Search, Plus, Edit, Trash2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sale } from '@/types/models';
 import { formatRupees } from '@/utils/currencyConverter';
@@ -12,9 +12,11 @@ interface SaleTableProps {
   sales: Sale[];
   onAddSale: () => void;
   onEditSale: (sale: Sale) => void;
+  onDeleteSale?: (sale: Sale) => void;
+  isLoading?: boolean;
 }
 
-export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
+export function SaleTable({ sales, onAddSale, onEditSale, onDeleteSale }: SaleTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState<string>('all');
 
@@ -41,11 +43,16 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
   return (
     <Card className="bg-cafe-background border-cafe-border">
       <CardHeader>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <CardTitle className="text-lg md:text-xl">Sales Records</CardTitle>
-          <Button onClick={onAddSale} className="bg-cafe-accent hover:bg-cafe-accent-dark w-full md:w-auto h-9 md:h-10 text-sm">
-            <Plus size={16} className="mr-2" />
-            Add Sale
+        <div className="flex flex-row justify-between items-center gap-4">
+          <CardTitle className="text-lg">Sales Records</CardTitle>
+          <Button 
+            onClick={onAddSale} 
+            className="bg-cafe-accent hover:bg-cafe-accent-dark h-8 px-3 text-xs sm:text-sm sm:h-9 sm:px-4"
+            size="sm"
+          >
+            <Plus size={14} />
+            <span className="hidden sm:inline">Add Sale</span>
+            <span className="sm:hidden pr-2">Add</span>
           </Button>
         </div>
       </CardHeader>
@@ -108,14 +115,23 @@ export function SaleTable({ sales, onAddSale, onEditSale }: SaleTableProps) {
                       <TableCell className="text-right">{formatRupees(sale.salePrice)}</TableCell>
                       <TableCell className="text-right">{formatRupees(sale.salePrice - sale.costPrice)}</TableCell>
                       <TableCell className="text-right">{formatRupees(sale.profit)}</TableCell>
-                      <TableCell>
-                        <div className="flex justify-end">
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
                           <Button
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8"
                             onClick={() => onEditSale(sale)}
                           >
-                            <Edit size={16} />
+                            <Edit size={14} />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-red-500 hover:text-red-600"
+                            onClick={() => onDeleteSale?.(sale)}
+                          >
+                            <Trash2 size={14} />
                           </Button>
                         </div>
                       </TableCell>
