@@ -17,8 +17,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTransactions } from '@/contexts/TransactionContext';
 
 export default function SalesPage() {
+  const { refreshData } = useTransactions();
   const [sales, setSales] = useState<Sale[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedSale, setSelectedSale] = useState<Sale | undefined>(undefined);
@@ -59,7 +61,7 @@ export default function SalesPage() {
     if (saleToDelete) {
       try {
         await deleteSale(saleToDelete.id);
-        setSales(prev => prev.filter(s => s.id !== saleToDelete.id));
+        await refreshData();
         setSaleToDelete(null);
       } catch (error) {
         console.error('Error deleting sale:', error);
@@ -78,6 +80,7 @@ export default function SalesPage() {
         const newSale = await addSale(saleData);
         setSales(prev => [...prev, newSale]);
       }
+      await refreshData();
       setIsDialogOpen(false);
     } catch (error) {
       console.error('Error saving sale:', error);
@@ -129,9 +132,21 @@ export default function SalesPage() {
       <AlertDialog open={!!saleToDelete} onOpenChange={() => setSaleToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Delete Sale Record</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the sale record.
+              <div className="space-y-2">
+                <p>Are you sure you want to delete this sale record?</p>
+                {saleToDelete && (
+                  <div className="bg-cafe-card/50 p-3 rounded-md space-y-1">
+                    <p><span className="font-medium">Item:</span> {saleToDelete.itemName}</p>
+                    <p><span className="font-medium">Quantity:</span> {saleToDelete.quantity}</p>
+                    <p><span className="font-medium">Price per Item:</span> {formatRupees(saleToDelete.salePrice)}</p>
+                    <p><span className="font-medium">Total:</span> {formatRupees(saleToDelete.quantity * saleToDelete.salePrice)}</p>
+                    <p><span className="font-medium">Date:</span> {new Date(saleToDelete.date).toLocaleDateString()}</p>
+                  </div>
+                )}
+                <p className="text-red-500">This action cannot be undone.</p>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

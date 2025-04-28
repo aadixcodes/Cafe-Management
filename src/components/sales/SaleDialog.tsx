@@ -20,7 +20,6 @@ interface SaleDialogProps {
 export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
   const [formData, setFormData] = useState<Partial<Sale>>({
     itemName: sale?.itemName || '',
-    costPrice: sale?.costPrice || 0,
     salePrice: sale?.salePrice || 0,
     quantity: sale?.quantity || 0,
     date: sale?.date || new Date().toISOString().split('T')[0],
@@ -36,13 +35,11 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
     setFormData(prev => {
       const updatedData = { ...prev, [name]: value };
       
-      if (['quantity', 'costPrice', 'salePrice'].includes(name)) {
+      if (['quantity', 'salePrice'].includes(name)) {
         const quantity = name === 'quantity' ? Number(value) : (prev.quantity || 0);
-        const costPrice = name === 'costPrice' ? Number(value) : (prev.costPrice || 0);
         const salePrice = name === 'salePrice' ? Number(value) : (prev.salePrice || 0);
         
         updatedData.totalSale = quantity * salePrice;
-        updatedData.profit = quantity * (salePrice - costPrice);
       }
       
       return updatedData;
@@ -60,12 +57,11 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
   };
 
   const handleSubmit = () => {
-    if (!formData.itemName || !formData.quantity || !formData.costPrice || !formData.salePrice) {
+    if (!formData.itemName || !formData.quantity || !formData.salePrice) {
       return;
     }
 
     const quantity = Number(formData.quantity);
-    const costPrice = Number(formData.costPrice);
     const salePrice = Number(formData.salePrice);
 
     const saleData: Sale = {
@@ -74,10 +70,8 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
       itemName: formData.itemName,
       category: formData.category || 'General',
       quantity: quantity,
-      costPrice: costPrice,
       salePrice: salePrice,
       totalSale: quantity * salePrice,
-      profit: quantity * (salePrice - costPrice),
       date: formData.date || new Date().toISOString().split('T')[0],
       customer: formData.customer,
       notes: formData.notes
@@ -118,33 +112,18 @@ export function SaleDialog({ isOpen, onClose, onSave, sale }: SaleDialogProps) {
             />
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="costPrice">Cost Price (₹)</Label>
-              <Input
-                id="costPrice"
-                name="costPrice"
-                type="number"
-                min="0"
-                step="0.01"
-                value={formData.costPrice}
-                onChange={handleInputChange}
-                className="bg-cafe-card/50 border-cafe-border"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="salePrice">Sale Price (₹)</Label>
-              <Input
-                id="salePrice"
-                name="salePrice"
-                type="number"
-                min="0"
-                step="0.01"
-                value={formData.salePrice}
-                onChange={handleInputChange}
-                className="bg-cafe-card/50 border-cafe-border"
-              />
-            </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salePrice">Sale Price (₹)</Label>
+            <Input
+              id="salePrice"
+              name="salePrice"
+              type="number"
+              min="0"
+              step="0.01"
+              value={formData.salePrice}
+              onChange={handleInputChange}
+              className="bg-cafe-card/50 border-cafe-border"
+            />
           </div>
           
           <div className="grid gap-2">

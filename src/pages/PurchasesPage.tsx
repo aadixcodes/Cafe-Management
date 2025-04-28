@@ -17,8 +17,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTransactions } from '@/contexts/TransactionContext';
 
 export default function PurchasesPage() {
+  const { refreshData } = useTransactions();
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPurchase, setSelectedPurchase] = useState<Purchase | undefined>(undefined);
@@ -59,7 +61,7 @@ export default function PurchasesPage() {
     if (purchaseToDelete) {
       try {
         await deletePurchase(purchaseToDelete.id);
-        setPurchases(prev => prev.filter(p => p.id !== purchaseToDelete.id));
+        await refreshData();
         setPurchaseToDelete(null);
       } catch (error) {
         console.error('Error deleting purchase:', error);
@@ -78,6 +80,7 @@ export default function PurchasesPage() {
         const newPurchase = await addPurchase(purchaseData);
         setPurchases(prev => [...prev, newPurchase]);
       }
+      await refreshData();
       setIsDialogOpen(false);
     } catch (error) {
       console.error('Error saving purchase:', error);
@@ -132,9 +135,21 @@ export default function PurchasesPage() {
       <AlertDialog open={!!purchaseToDelete} onOpenChange={() => setPurchaseToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Delete Purchase Record</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the purchase record.
+              <div className="space-y-2">
+                <p>Are you sure you want to delete this purchase record?</p>
+                {purchaseToDelete && (
+                  <div className="bg-cafe-card/50 p-3 rounded-md space-y-1">
+                    <p><span className="font-medium">Item:</span> {purchaseToDelete.itemName}</p>
+                    <p><span className="font-medium">Quantity:</span> {purchaseToDelete.quantity}</p>
+                    <p><span className="font-medium">Price per Item:</span> {formatRupees(purchaseToDelete.unitPrice)}</p>
+                    <p><span className="font-medium">Total:</span> {formatRupees(purchaseToDelete.totalCost)}</p>
+                    <p><span className="font-medium">Date:</span> {new Date(purchaseToDelete.date).toLocaleDateString()}</p>
+                  </div>
+                )}
+                <p className="text-red-500">This action cannot be undone.</p>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

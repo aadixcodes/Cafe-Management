@@ -96,10 +96,8 @@ export function SaleTable({ sales, onAddSale, onEditSale, onDeleteSale }: SaleTa
                   <TableHead>Date</TableHead>
                   <TableHead>Item Name</TableHead>
                   <TableHead className="text-right">Quantity</TableHead>
-                  <TableHead className="text-right">Cost Price</TableHead>
-                  <TableHead className="text-right">Sale Price</TableHead>
-                  <TableHead className="text-right">Profit/Item</TableHead>
-                  <TableHead className="text-right">Total Profit</TableHead>
+                  <TableHead className="text-right">Sell Price Per Item</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -111,10 +109,8 @@ export function SaleTable({ sales, onAddSale, onEditSale, onDeleteSale }: SaleTa
                       <TableCell>{formatDate(sale.date)}</TableCell>
                       <TableCell>{sale.itemName}</TableCell>
                       <TableCell className="text-right">{sale.quantity}</TableCell>
-                      <TableCell className="text-right">{formatRupees(sale.costPrice)}</TableCell>
                       <TableCell className="text-right">{formatRupees(sale.salePrice)}</TableCell>
-                      <TableCell className="text-right">{formatRupees(sale.salePrice - sale.costPrice)}</TableCell>
-                      <TableCell className="text-right">{formatRupees(sale.profit)}</TableCell>
+                      <TableCell className="text-right">{formatRupees(sale.quantity * sale.salePrice)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button
@@ -139,7 +135,7 @@ export function SaleTable({ sales, onAddSale, onEditSale, onDeleteSale }: SaleTa
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={9} className="text-center py-6 text-muted-foreground">
+                    <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
                       No sales found
                     </TableCell>
                   </TableRow>
