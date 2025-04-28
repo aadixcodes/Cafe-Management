@@ -65,11 +65,11 @@ export interface Sale {
   itemId: string;
   itemName: string;
   category: string;
-  costPrice: number;
+  // costPrice: number;
   salePrice: number;
   quantity: number;
   totalSale: number;
-  profit: number;
+  // profit: number;
   customer?: string;
   notes?: string;
 }
